@@ -5,6 +5,7 @@ Table of Contents
 
    index
    installation
+   ref/datetime_utils
    LICENSE
 
 Indices and tables

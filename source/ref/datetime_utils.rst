@@ -11,6 +11,6 @@ round_datetime_down
 
 .. _ref-datetime_utils-round_datetime_up:
 
-add_timedelta
+round_datetime_up
 -------------
 .. autofunction:: datetime_utils.round_datetime_up
