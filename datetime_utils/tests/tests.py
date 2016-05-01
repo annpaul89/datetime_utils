@@ -24,6 +24,11 @@ class TestIsSnappedTo(TestCase):
     # Transition from 2015-10-30 01:00:00 -> 00:00:00 (midnight exists twice)
     tz_AsiaAmman = pytz.timezone('Asia/Amman')
 
+    def test_unrecognized_period(self):
+        dt = datetime(2015, 3, 1, 4, 1)
+        with self.assertRaises(Exception):
+            datetime_utils.is_snapped_to(dt, None)
+
     def test_naive_dt(self):
         period = 'minute'
 
@@ -273,6 +278,40 @@ class TestIsSnappedTo(TestCase):
         self.assertFalse(datetime_utils.is_snapped_to(dt_utc_fail, period, self.tz_AsiaAmman))
 
 
+class TestIsSnappedTo15Min(TestCase):
+
+    # UTC/GMT -2:30 hours
+    tz = pytz.timezone('Canada/Newfoundland')
+
+    def test_naive_dt(self):
+        # success
+        dt_success = datetime(2015, 3, 1, 4, 15)
+        self.assertTrue(datetime_utils.is_snapped_to_15min(dt_success))
+
+        # failure
+        dt_fail = datetime(2015, 3, 1, 4, 25)
+        self.assertFalse(datetime_utils.is_snapped_to_15min(dt_fail))
+
+    def test_non_naive_dt(self):
+        # same TZ, success
+        dt_success = self.tz.localize(datetime(2015, 3, 1, 4, 45))
+        self.assertTrue(datetime_utils.is_snapped_to_15min(dt_success, self.tz))
+        self.assertTrue(datetime_utils.is_snapped_to_15min(dt_success))
+
+        # different TZ, success
+        dt_utc_success = pytz.UTC.normalize(dt_success)
+        self.assertTrue(datetime_utils.is_snapped_to_15min(dt_utc_success, self.tz))
+
+        # same TZ, failure
+        dt_fail = self.tz.localize(datetime(2015, 3, 1, 4, 35))
+        self.assertFalse(datetime_utils.is_snapped_to_15min(dt_fail, self.tz))
+        self.assertFalse(datetime_utils.is_snapped_to_15min(dt_fail))
+
+        # different TZ, failure
+        dt_utc_fail = pytz.UTC.normalize(dt_fail)
+        self.assertFalse(datetime_utils.is_snapped_to_15min(dt_utc_fail, self.tz))
+
+
 class RoundDatetime15Min(TestCase):
     def test_round_down(self):
         dt = datetime(2013, 4, 5, 2, 37)
@@ -479,6 +518,11 @@ class RoundDatetimeUp(TestCase):
 class RoundDatetimeDown(TestCase):
     tz = pytz.timezone('America/Los_Angeles')
     tz_30 = pytz.timezone('Asia/Kolkata')
+
+    def test_unrecognized_period(self):
+        dt = datetime(2015, 3, 1, 4, 1)
+        with self.assertRaises(Exception):
+            datetime_utils.round_datetime_down(dt, None)
 
     def test_week(self):
         dt = datetime(2015, 3, 12, 2, 33)
