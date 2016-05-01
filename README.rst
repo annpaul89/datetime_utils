@@ -6,7 +6,7 @@
 
 datetime_utils
 ==============
-Python functions for common operations on datetime instances
+Python functions for common operations on datetime instances respecting timezones.
 
 License
 =======
