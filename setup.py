@@ -19,8 +19,6 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
     ],
     keywords='python datetime pytz timezone timedelta arithmetic round floor period conversion',
     test_suite='nose.collector',
