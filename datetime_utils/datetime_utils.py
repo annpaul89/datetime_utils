@@ -83,7 +83,7 @@ def round_datetime_down(dt, period, tzinfo=None, force=False):
     args.append(dt.hour)
     if period == 'hour':
         rounded = datetime(*args)
-    if period == 'minute-15':
+    elif period == 'minute-15':
         args.append(dt.minute/15*15)
         rounded = datetime(*args)
 
@@ -161,7 +161,7 @@ def is_snapped_to(dt, period, tz=None):
 
         # handling the case where there's a 'double hour' DST transition
         if (dt_less.tzinfo != dt_local.tzinfo and
-            dt_less.minute > dt_local.minute):
+                    dt_less.minute > dt_local.minute):
             return True
 
         return False
