@@ -14,7 +14,7 @@ Installation
 
 Documentation
 =============
-Full documentation is available at http://datetime-utils.readthedocs.io/en/latest/#
+Full documentation is available at http://datetime-utils.readthedocs.io/en/latest/
 
 License
 =======
