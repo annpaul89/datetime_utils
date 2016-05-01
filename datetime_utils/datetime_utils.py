@@ -129,7 +129,6 @@ def round_datetime_up(dt, period, tzinfo=None, force=False):
     return round_datetime_down(ahead, period, tzinfo=tzinfo)
 
 
-
 def is_snapped_to_15min(dt, tz=None):
     """
     Checks if the datetime is 'snapped' to the period.
@@ -161,8 +160,8 @@ def is_snapped_to(dt, period, tz=None):
             return True
 
         # handling the case where there's a 'double hour' DST transition
-        if (    dt_less.tzinfo != dt_local.tzinfo and
-                dt_less.minute > dt_local.minute):
+        if (dt_less.tzinfo != dt_local.tzinfo and
+            dt_less.minute > dt_local.minute):
             return True
 
         return False

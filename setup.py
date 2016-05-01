@@ -14,7 +14,7 @@ setup(
     install_requires=[
         'pytz>=2014.10',
     ],
-    classifiers = [
+    classifiers=[
         'Topic :: Utilities',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: MIT License',
@@ -22,9 +22,9 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    keywords = 'python datetime pytz timezone timedelta arithmetic round floor period conversion',
-    test_suite = 'nose.collector',
-    tests_require = [
+    keywords='python datetime pytz timezone timedelta arithmetic round floor period conversion',
+    test_suite='nose.collector',
+    tests_require=[
         'coverage==3.7.1',
         'nose>=1.3.0',
     ],

@@ -8,6 +8,7 @@ import pytz
 
 from datetime_utils import datetime_utils
 
+
 class TestIsSnappedTo(TestCase):
 
     # UTC/GMT -2:30 hours
@@ -57,7 +58,7 @@ class TestIsSnappedTo(TestCase):
         period = 'day'
 
         # success
-        dt_success = datetime(2015, 3, 1 )
+        dt_success = datetime(2015, 3, 1)
         self.assertTrue(datetime_utils.is_snapped_to(dt_success, period))
 
         # failure
@@ -582,7 +583,7 @@ class RoundDatetimeDown(TestCase):
     def test_day_tz_4(self):
         dt = datetime(2013, 3, 5, 2, 33, tzinfo=pytz.UTC)
         period = 'day'
-        expected_result  = datetime(2013, 3, 4, 8, 0, tzinfo=pytz.UTC)
+        expected_result = datetime(2013, 3, 4, 8, 0, tzinfo=pytz.UTC)
 
         result = datetime_utils.round_datetime_down(dt, period, tzinfo=self.tz)
         self.assertEqual(result, expected_result)
