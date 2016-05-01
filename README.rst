@@ -8,6 +8,14 @@ datetime_utils
 ==============
 Python functions for common operations on datetime instances respecting timezones.
 
+Installation
+------------
+(Fill in when registered on pypi)
+
+Documentation
+=============
+Full documentation is available at http://datetime-utils.readthedocs.io/en/latest/#
+
 License
 =======
 MIT License (see LICENSE.rst)
