@@ -30,4 +30,4 @@ External libraries, if used, include their own licenses:
 
 * `pytz`_
 
-.. _pytz: http://pytz.sourceforge.net/#license)
+.. _pytz: http://pytz.sourceforge.net/#license
