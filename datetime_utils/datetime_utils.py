@@ -148,7 +148,7 @@ def round_datetime_to_15min(dt, tzinfo=None, force=False):
     .. code-block:: python
         >>> import datetime
         >>> import pytz
-        >>> from datetime_utils import datetime_utils
+        >>> import datetime_utils
         >>> # Weeks start on Monday, so the floor will be for the previous Monday
         >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 3, 3, 5, 17))
         2013-03-03 05:15:00
