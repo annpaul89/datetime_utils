@@ -170,8 +170,8 @@ def round_datetime_to_15min(dt, tzinfo=None, force=False):
         >>> # Since it is January 31 in CST, the resulting floored value
         >>> # for a day will be the previous day. Also, the returned value is
         >>> # in the original timezone of EST
-        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 2, 1, 5, 2, tzinfo=pytz.timezone('US/Eastern')),
-        ... tzinfo=pytz.timezone('US/Central'))
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 2, 1, 5, 2,
+        ... tzinfo=pytz.timezone('US/Eastern')), tzinfo=pytz.timezone('US/Central'))
         2013-02-01 04:45:00-05:00
     """
     return round_datetime(dt, 'minute-15', tzinfo, force)
