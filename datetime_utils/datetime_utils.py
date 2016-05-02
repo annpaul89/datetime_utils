@@ -36,7 +36,7 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
     """
     Rounds a datetime to the nearest period.
     Valid periods are:
-        minute, minute-15, hour, day, week
+    minute, minute-15, hour, day, week
 
     :type dt: datetime
     :param dt: A naive or aware datetime object.
@@ -60,7 +60,9 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
         object.
 
     :raises: Exception if the period is not supported
+
     .. code-block:: python
+
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
@@ -145,7 +147,9 @@ def round_datetime_to_15min(dt, tzinfo=None, force=False):
         original timezone of dt (or its DST equivalent if a DST border was
         crossed). If the input time was naive, it returns a naive datetime
         object.
+
     .. code-block:: python
+    
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
