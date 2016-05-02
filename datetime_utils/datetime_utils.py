@@ -40,49 +40,54 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
 
     :type dt: datetime
     :param dt: A naive or aware datetime object.
+
     :type period: str
     :param period: Options are minute, minute-15, hour, day, week
+
     :type tzinfo: pytz timezone
     :param tzinfo: A pytz timezone object. If given, the round will
         be performed with respect to the timezone.
+
     :type force: bool
     :param force: A boolean value. If force=True,
         it causes pre-rounded values to jump another step anyway.
+
     :rtype: datetime
     :returns: A datetime object that results from rounding datetime to the period.
         The timezone of the returned datetime will be equivalent to the
         original timezone of dt (or its DST equivalent if a DST border was
         crossed). If the input time was naive, it returns a naive datetime
         object.
+
     :raises: Exception if the period is not supported
     .. code-block:: python
-    >>> import datetime
-    >>> import pytz
-    >>> import datetime_utils
-    >>> # Weeks start on Monday, so the floor will be for the previous Monday
-    >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='week')
-    2013-02-25 00:00:00
-    >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='day')
-    2013-03-03 00:00:00
-    >>> # Pass an aware datetime and return an aware datetime
-    >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5, tzinfo=pytz.utc), period='day')
-    2013-03-03 00:00:00+00:00
-    >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 4, 6), period='day',
-    ... tzinfo=pytz.timezone('US/Eastern'))
-    2013-03-04 05:00:00
-    >>> # Start with a naive UTC time and floor it with respect to EST
-    >>> dt = datetime.datetime(2013, 2, 1)
-    >>> # Since it is January 31 in EST, the resulting floored value
-    >>> # for a day will be the previous day. Also, the returned value is
-    >>> # in the original naive timezone of UTC
-    >>> print datetime_utils.round_datetime(dt, period='day', tzinfo=pytz.timezone('US/Eastern'))
-    2013-01-31 05:00:00
-    >>> # Since it is January 31 in CST, the resulting floored value
-    >>> # for a day will be the previous day. Also, the returned value is
-    >>> # in the original timezone of EST
-    >>> print datetime_utils.round_datetime(datetime.datetime(2013, 2, 1, 5, tzinfo=pytz.timezone('US/Eastern')),
-    ... period='day', tzinfo=pytz.timezone('US/Central'))
-    2013-02-01 01:00:00-05:00
+        >>> import datetime
+        >>> import pytz
+        >>> import datetime_utils
+        >>> # Weeks start on Monday, so the floor will be for the previous Monday
+        >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='week')
+        2013-02-25 00:00:00
+        >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='day')
+        2013-03-03 00:00:00
+        >>> # Pass an aware datetime and return an aware datetime
+        >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5, tzinfo=pytz.utc), period='day')
+        2013-03-03 00:00:00+00:00
+        >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 4, 6), period='day',
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        2013-03-04 05:00:00
+        >>> # Start with a naive UTC time and floor it with respect to EST
+        >>> dt = datetime.datetime(2013, 2, 1)
+        >>> # Since it is January 31 in EST, the resulting floored value
+        >>> # for a day will be the previous day. Also, the returned value is
+        >>> # in the original naive timezone of UTC
+        >>> print datetime_utils.round_datetime(dt, period='day', tzinfo=pytz.timezone('US/Eastern'))
+        2013-01-31 05:00:00
+        >>> # Since it is January 31 in CST, the resulting floored value
+        >>> # for a day will be the previous day. Also, the returned value is
+        >>> # in the original timezone of EST
+        >>> print datetime_utils.round_datetime(datetime.datetime(2013, 2, 1, 5, tzinfo=pytz.timezone('US/Eastern')),
+        ... period='day', tzinfo=pytz.timezone('US/Central'))
+        2013-02-01 01:00:00-05:00
     """
 
     if period == 'week':
