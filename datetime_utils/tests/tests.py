@@ -385,10 +385,18 @@ class RoundDatetime(TestCase):
         result = datetime_utils.round_datetime(dt, period)
         self.assertEqual(result, expected_result)
 
-    def test_minute(self):
+    def test_minute1(self):
         dt = datetime(2013, 4, 5, 2, 33, 45)
         period = 'minute'
         expected_result = datetime(2013, 4, 5, 2, 34)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_minute2(self):
+        dt = datetime(2013, 4, 5, 2, 33, 25)
+        period = 'minute'
+        expected_result = datetime(2013, 4, 5, 2, 33)
 
         result = datetime_utils.round_datetime(dt, period)
         self.assertEqual(result, expected_result)
