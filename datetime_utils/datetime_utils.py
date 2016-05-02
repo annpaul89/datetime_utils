@@ -149,7 +149,7 @@ def round_datetime_to_15min(dt, tzinfo=None, force=False):
         object.
 
     .. code-block:: python
-    
+
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
