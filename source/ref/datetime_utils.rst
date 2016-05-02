@@ -3,14 +3,14 @@
 datetime_utils
 ==============
 
-.. _ref-datetime_utils-round_datetime_down:
+.. _ref-datetime_utils-round_datetime:
 
-round_datetime_down
+round_datetime
 -------------------
-.. autofunction:: datetime_utils.round_datetime_down
+.. autofunction:: datetime_utils.round_datetime
 
-.. _ref-datetime_utils-round_datetime_up:
+.. _ref-datetime_utils-round_datetime_to_15min:
 
-round_datetime_up
+round_datetime_to_15min
 -------------
-.. autofunction:: datetime_utils.round_datetime_up
+.. autofunction:: datetime_utils.round_datetime_to_15min
