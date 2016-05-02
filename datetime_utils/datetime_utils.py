@@ -99,7 +99,6 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
             return round_datetime_up(dt, 'week', tzinfo, force)
 
     if period == 'day':
-
         if dt.hour <= 12:
             return round_datetime_down(dt, 'day', tzinfo, force)
         else:
@@ -118,7 +117,7 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
             return round_datetime_up(dt, 'minute-15', tzinfo, force)
 
     if period == 'minute':
-        if dt.seconds <= 30:
+        if dt.second <= 30:
             return round_datetime_down(dt, 'minute', tzinfo, force)
         else:
             return round_datetime_up(dt, 'minute', tzinfo, force)

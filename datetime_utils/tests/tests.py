@@ -328,6 +328,185 @@ class RoundDatetime15Min(TestCase):
         self.assertEqual(result, expected_result)
 
 
+class RoundDatetime(TestCase):
+    tz = pytz.timezone('America/Los_Angeles')
+    tz_30 = pytz.timezone('Asia/Kolkata')
+
+    def test_week(self):
+        dt = datetime(2013, 4, 5, 2, 33)
+        period = 'week'
+        expected_result = datetime(2013, 4, 8, 0, 0)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_day(self):
+        dt = datetime(2013, 4, 5, 2, 33)
+        period = 'day'
+        expected_result = datetime(2013, 4, 5, 0, 0)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_hour(self):
+        dt = datetime(2013, 4, 5, 2, 33)
+        period = 'hour'
+        expected_result = datetime(2013, 4, 5, 3, 0)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_15_minute_1(self):
+        dt = datetime(2013, 4, 5, 2, 42)
+        period = 'minute-15'
+        expected_result = datetime(2013, 4, 5, 2, 45)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_15_minute_2(self):
+        dt = datetime(2013, 4, 5, 2, 15)
+        period = 'minute-15'
+        expected_result = datetime(2013, 4, 5, 2, 15)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_minute(self):
+        dt = datetime(2013, 4, 5, 2, 33, 45)
+        period = 'minute'
+        expected_result = datetime(2013, 4, 5, 2, 34)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    # timezones
+
+    def test_day_tz_1(self):
+        dt = datetime(2013, 4, 5, 12, 33)
+        period = 'day'
+        expected_result = datetime(2013, 4, 5, 7, 0)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_2(self):
+        dt = datetime(2013, 4, 5, 7, 0)
+        period = 'day'
+        expected_result = datetime(2013, 4, 5, 7, 0)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_3(self):
+        dt = datetime(2013, 4, 5, 19, 33)
+        period = 'day'
+        expected_result = datetime(2013, 4, 6, 7, 0)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_30(self):
+        dt = datetime(2013, 4, 5)
+        period = 'day'
+        expected_result = datetime(2013, 4, 4, 18, 30)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz_30)
+        self.assertEqual(result, expected_result)
+
+    def test_hour_tz_30(self):
+        dt = datetime(2013, 4, 5, 18, 30)
+        period = 'hour'
+        expected_result = datetime(2013, 4, 5, 18, 30)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz_30)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_before_transition(self):
+        dt = self.tz.normalize(datetime(2015, 3, 8, 8, tzinfo=pytz.UTC))
+        period = 'day'
+        expected_result = dt
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_during_transition(self):
+        dt = self.tz.normalize(datetime(2015, 3, 8, 22, 30, tzinfo=pytz.UTC))
+        period = 'day'
+        expected_result = self.tz.normalize(datetime(2015, 3, 9, 7, tzinfo=pytz.UTC))
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_after_transition(self):
+        dt = self.tz.normalize(datetime(2015, 3, 8, 23, tzinfo=pytz.UTC))
+        period = 'day'
+        expected_result = self.tz.normalize(datetime(2015, 3, 9, 7, tzinfo=pytz.UTC))
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_week_tz_1(self):
+        dt = datetime(2013, 3, 31, 2, 33)
+        period = 'week'
+        expected_result = datetime(2013, 4, 1, 7, 0)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    # note that April 2013 in LA is in DST while March is not
+
+    def test_day_tz_11(self):
+        dt = datetime(2013, 3, 5, 12, 33, tzinfo=pytz.UTC)
+        period = 'day'
+        expected_result = datetime(2013, 3, 5, 8, 0, tzinfo=pytz.UTC)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_12(self):
+        dt = datetime(2013, 3, 5, 8, 0, tzinfo=pytz.UTC)
+        period = 'day'
+        expected_result = datetime(2013, 3, 5, 8, 0, tzinfo=pytz.UTC)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    def test_day_tz_13(self):
+        dt = datetime(2013, 3, 5, 19, 33, tzinfo=pytz.UTC)
+        period = 'day'
+        expected_result = datetime(2013, 3, 6, 8, 0, tzinfo=pytz.UTC)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz)
+        self.assertEqual(result, expected_result)
+
+    # test the force kwarg
+
+    def test_force_day(self):
+        dt = datetime(2013, 4, 5, 20)
+        period = 'day'
+        expected_result = datetime(2013, 4, 6, 0, 0)
+
+        result = datetime_utils.round_datetime(dt, period, force=True)
+        self.assertEqual(result, expected_result)
+
+    def test_force_day_tz(self):
+        dt = datetime(2013, 4, 5, 20, 0)
+        period = 'day'
+        expected_result = datetime(2013, 4, 6, 7, 0)
+
+        result = datetime_utils.round_datetime(dt, period, tzinfo=self.tz, force=True)
+        self.assertEqual(result, expected_result)
+
+    def test_force_hour(self):
+        dt = datetime(2013, 4, 5, 2, 33)
+        period = 'hour'
+        expected_result = datetime(2013, 4, 5, 3, 0)
+
+        result = datetime_utils.round_datetime(dt, period, force=True)
+        self.assertEqual(result, expected_result)
+
+
 class RoundDatetimeUp(TestCase):
     tz = pytz.timezone('America/Los_Angeles')
     tz_30 = pytz.timezone('Asia/Kolkata')
