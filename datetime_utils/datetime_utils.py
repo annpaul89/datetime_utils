@@ -93,7 +93,7 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
     """
 
     if period == 'week':
-        if dt.day <= 4:
+        if dt.weekday() <= 4:
             return round_datetime_down(dt, 'week', tzinfo, force)
         else:
             return round_datetime_up(dt, 'week', tzinfo, force)

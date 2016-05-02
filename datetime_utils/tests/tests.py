@@ -332,8 +332,21 @@ class RoundDatetime(TestCase):
     tz = pytz.timezone('America/Los_Angeles')
     tz_30 = pytz.timezone('Asia/Kolkata')
 
-    def test_week(self):
-        dt = datetime(2013, 4, 5, 2, 33)
+    def test_unrecognized_period(self):
+        dt = datetime(2015, 3, 1, 4, 1)
+        with self.assertRaises(Exception):
+            datetime_utils.round_datetime(dt, None)
+
+    def test_week1(self):
+        dt = datetime(2015, 3, 12, 2, 33)
+        period = 'week'
+        expected_result = datetime(2015, 3, 9, 0, 0)
+
+        result = datetime_utils.round_datetime(dt, period)
+        self.assertEqual(result, expected_result)
+
+    def test_week2(self):
+        dt = datetime(2013, 4, 6, 2, 33)
         period = 'week'
         expected_result = datetime(2013, 4, 8, 0, 0)
 
