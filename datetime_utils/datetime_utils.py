@@ -126,12 +126,53 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
 
 def round_datetime_to_15min(dt, tzinfo=None, force=False):
     """
-    Round the given datetime to a 15-minute period.
+    Rounds a datetime to the nearest 15 minute interval.
 
-    If a tzinfo is specified, the rounding is done in that timezone.
-    Else it is done in the timezone of the datetime.
+    :type dt: datetime
+    :param dt: A naive or aware datetime object.
 
-    Specify force=True to cause pre-rounded values to jump another step anyway.
+    :type tzinfo: pytz timezone
+    :param tzinfo: A pytz timezone object. If given, the round will
+        be performed with respect to the timezone.
+
+    :type force: bool
+    :param force: A boolean value. If force=True,
+        it causes pre-rounded values to jump another step anyway.
+
+    :rtype: datetime
+    :returns: A datetime object that results from rounding datetime to the period.
+        The timezone of the returned datetime will be equivalent to the
+        original timezone of dt (or its DST equivalent if a DST border was
+        crossed). If the input time was naive, it returns a naive datetime
+        object.
+    .. code-block:: python
+        >>> import datetime
+        >>> import pytz
+        >>> import datetime_utils
+        >>> # Weeks start on Monday, so the floor will be for the previous Monday
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 3, 3, 5, 17))
+        2013-03-03 05:15:00
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 3, 3, 5, 40))
+        2013-03-03 05:45:00
+        >>> # Pass an aware datetime and return an aware datetime
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 3, 3, 5, 34, tzinfo=pytz.utc))
+        2013-03-03 05:30:00+00:00
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 3, 4, 6, 10),
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        2013-03-04 06:15:00
+        >>> # Start with a naive UTC time and floor it with respect to EST
+        >>> dt = datetime.datetime(2013, 2, 1, 2, 56)
+        >>> # Since it is January 31 in EST, the resulting floored value
+        >>> # for a day will be the previous day. Also, the returned value is
+        >>> # in the original naive timezone of UTC
+        >>> print datetime_utils.round_datetime_to_15min(dt, tzinfo=pytz.timezone('US/Eastern'))
+        2013-02-01 03:00:00
+        >>> # Since it is January 31 in CST, the resulting floored value
+        >>> # for a day will be the previous day. Also, the returned value is
+        >>> # in the original timezone of EST
+        >>> print datetime_utils.round_datetime_to_15min(datetime.datetime(2013, 2, 1, 5, 2, tzinfo=pytz.timezone('US/Eastern')),
+        ... tzinfo=pytz.timezone('US/Central'))
+        2013-02-01 04:45:00-05:00
     """
     return round_datetime(dt, 'minute-15', tzinfo, force)
 
