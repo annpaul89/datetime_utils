@@ -55,7 +55,7 @@ author = u'Ann Paul'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-#
+
 # The short X.Y version.
 version = u'0.1'
 # The full version, including alpha/beta/rc tags.
@@ -77,7 +77,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = []
+exclude_patterns = ['_build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
