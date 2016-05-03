@@ -141,7 +141,8 @@ def round_datetime_to_15min(dt, tzinfo=None, force=False):
         it causes pre-rounded values to jump another step anyway.
 
     :rtype: datetime
-    :returns: A datetime object that results from rounding datetime to the period.
+    :returns: A datetime object that results from rounding datetime to a 15
+        minute interval.
         The timezone of the returned datetime will be equivalent to the
         original timezone of dt (or its DST equivalent if a DST border was
         crossed). If the input time was naive, it returns a naive datetime
@@ -281,7 +282,7 @@ def is_snapped_to_15min(dt, tzinfo=None):
 
     :rtype: bool
     :returns: A boolean value that results from checking if the given datetime
-        is snapped to the period specified
+        is snapped to a 15 minute interval
 
     .. code-block:: python
 
@@ -318,7 +319,7 @@ def is_snapped_to(dt, period, tzinfo=None):
         is snapped to the period specified
 
     .. code-block:: python
-    
+
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
