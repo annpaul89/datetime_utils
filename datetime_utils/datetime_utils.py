@@ -66,9 +66,9 @@ def round_datetime(dt, period, tzinfo=pytz.UTC, force=False):
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
-        >>> # Weeks start on Monday, so the floor will be for the previous Monday
+        >>> # Weeks start on Monday, so the ceil will be for the next Monday
         >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='week')
-        2013-02-25 00:00:00
+        2013-03-04 00:00:00
         >>> print datetime_utils.round_datetime(datetime.datetime(2013, 3, 3, 5), period='day')
         2013-03-03 00:00:00
         >>> # Pass an aware datetime and return an aware datetime
@@ -267,21 +267,88 @@ def round_datetime_up(dt, period, tzinfo=None, force=False):
     return round_datetime_down(ahead, period, tzinfo=tzinfo, force=force)
 
 
-def is_snapped_to_15min(dt, tz=None):
+def is_snapped_to_15min(dt, tzinfo=None):
+    """
+    Checks if the datetime is 'snapped' to a 15 minute interval.
+
+    :type dt: datetime
+    :param dt: A naive or aware datetime object.
+
+    :type tzinfo: pytz timezone
+    :param tzinfo: A pytz timezone object.
+        If a timezone is specified, the check is done in that timezone.
+        Else it is done in the timezone of the datetime.
+
+    :rtype: bool
+    :returns: A boolean value that results from checking if the given datetime
+        is snapped to the period specified
+
+    .. code-block:: python
+        >>> import datetime
+        >>> import pytz
+        >>> import datetime_utils
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, 4, 20,
+        ... tzinfo=pytz.utc), period='minute-15')
+        False
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 2, 1, 5, 45,
+        ... tzinfo=pytz.utc), period='minute-15', tzinfo=pytz.timezone('US/Eastern'))
+        True
+    """
+    return is_snapped_to(dt, 'minute-15', tzinfo)
+
+
+def is_snapped_to(dt, period, tzinfo=None):
     """
     Checks if the datetime is 'snapped' to the period.
 
-    Valid periods are:
-        minute, minute-15, hour, day, week
+    :type dt: datetime
+    :param dt: A naive or aware datetime object.
 
-    If a timezone is specified, the check is done in that timezone.
-    Else it is done in the timezone of the datetime.
+    :type period: str
+    :param period: Options are minute, minute-15, hour, day
+
+    :type tzinfo: pytz timezone
+    :param tzinfo: A pytz timezone object.
+        If a timezone is specified, the check is done in that timezone.
+        Else it is done in the timezone of the datetime.
+
+    :rtype: bool
+    :returns: A boolean value that results from checking if the given datetime
+        is snapped to the period specified
+
+    .. code-block:: python
+        >>> import datetime
+        >>> import pytz
+        >>> import datetime_utils
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3), period='day')
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, 5), period='day')
+        False
+        >>> # Pass an aware datetime and return an aware datetime
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, tzinfo=pytz.utc), period='day')
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 2, 1, 5, tzinfo=pytz.utc), period='day',
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, 4, tzinfo=pytz.utc), period='hour')
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 2, 1, 5, tzinfo=pytz.utc), period='hour',
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, 4, 20, tzinfo=pytz.utc), period='minute')
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 2, 1, 5, 20, tzinfo=pytz.utc), period='minute',
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        True
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 3, 3, 4, 20,
+        ... tzinfo=pytz.utc), period='minute-15')
+        False
+        >>> print datetime_utils.is_snapped_to(datetime.datetime(2013, 2, 1, 5, 45,
+        ... tzinfo=pytz.utc), period='minute-15',
+        ... tzinfo=pytz.timezone('US/Eastern'))
+        True
     """
-    return is_snapped_to(dt, 'minute-15', tz)
-
-
-def is_snapped_to(dt, period, tz=None):
-    tz = tz or dt.tzinfo
+    tz = tzinfo or dt.tzinfo
     dt_local = tz.normalize(dt) if tz else dt
 
     dt_less = dt - timedelta.resolution
