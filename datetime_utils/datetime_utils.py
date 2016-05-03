@@ -284,6 +284,7 @@ def is_snapped_to_15min(dt, tzinfo=None):
         is snapped to the period specified
 
     .. code-block:: python
+
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
@@ -317,6 +318,7 @@ def is_snapped_to(dt, period, tzinfo=None):
         is snapped to the period specified
 
     .. code-block:: python
+    
         >>> import datetime
         >>> import pytz
         >>> import datetime_utils
